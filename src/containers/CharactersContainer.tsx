@@ -1,12 +1,14 @@
 import { useCallback } from "react";
 import { useCharacterListQuery } from "../lib";
 import { CharacterList } from "../components/shared/CharacterList";
-import { CharacterSearch } from "../components/shared/CharacterSearch";
 import { useSearchParams } from "react-router-dom";
+import { CharacterNameSearch } from "../components/shared/CharacterNameSearch";
+import { CharacterStatusSelect } from "../components/shared/CharacterStatusSelect";
 
 export const CharactersContainer = () => {
   const [searchParams] = useSearchParams();
   const searchName = searchParams.get("name") || "";
+  const searchStatus = searchParams.get("status") || "";
 
   const {
     data,
@@ -15,7 +17,10 @@ export const CharactersContainer = () => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = useCharacterListQuery({ ...(searchName && { name: searchName }) });
+  } = useCharacterListQuery({
+    ...(searchName && { name: searchName }),
+    ...(searchStatus && { status: searchStatus }),
+  });
 
   const onIntersectingHandler = useCallback(() => {
     if (isFetchingNextPage) return;
@@ -31,7 +36,10 @@ export const CharactersContainer = () => {
         </h1>
 
         <div className="grid gap-8">
-          <CharacterSearch />
+          <div className="flex items-center gap-2">
+            <CharacterNameSearch />
+            <CharacterStatusSelect />
+          </div>
 
           <CharacterList
             characters={data}

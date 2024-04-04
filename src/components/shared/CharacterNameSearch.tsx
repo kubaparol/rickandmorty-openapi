@@ -4,14 +4,14 @@ import { Search } from "lucide-react";
 import { formUrlQuery, removeKeysFromQuery } from "@/src/utils";
 import { Input } from "../ui/input";
 
-export interface CharacterSearchProps {
+export interface CharacterNameSearchProps {
   placeholder?: string;
 }
 
 const SEARCH_QUERY_KEY = "name";
 const MAX_SEARCH_LENGTH = 80;
 
-export const CharacterSearch = (props: CharacterSearchProps) => {
+export const CharacterNameSearch = (props: CharacterNameSearchProps) => {
   const { placeholder = "Search name..." } = props;
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
