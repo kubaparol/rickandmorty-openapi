@@ -9,27 +9,13 @@ export const CharacterCard: FC<CharacterCardProps> = (props) => {
   const { character } = props;
 
   return (
-    <div className="rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out border">
-      <img
-        className="w-full h-48 object-cover"
-        src={character.image}
-        alt={character.name}
-      />
-      <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">{character.name}</div>
-        <p className="text-gray-300 text-base">
+    <div className="flex flex-col relative overflow-hidden w-full aspect-square rounded-2xl">
+      <img src={character.image} alt={character.name} />
+      <div className="p-3 overflow-hidden backdrop-blur-md backdrop-saturate-150 absolute bg-black/40 bottom-2 left-2 right-2 z-10 rounded-2xl shadow-2xl">
+        <h3 className="text-xl font-bold text-white">{character.name}</h3>
+        <p className="text-md text-gray-300">
           {character.species} - {character.status}
         </p>
-      </div>
-      <div className="px-6 pt-4 pb-2">
-        {character.episode?.slice(0, 3).map((ep, index) => (
-          <span
-            key={index}
-            className="inline-block bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-400 mr-2 mb-2"
-          >
-            #Episode {ep.split("/").pop()}
-          </span>
-        ))}
       </div>
     </div>
   );

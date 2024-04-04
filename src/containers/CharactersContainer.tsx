@@ -5,12 +5,14 @@ export const CharactersContainer = () => {
   const characters = useCharacters();
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
-      <h1 className="text-4xl font-bold text-center text-green-400 my-8">
-        Rick and Morty Universe
-      </h1>
+    <div className="bg-black/85">
+      <div className="wrapper">
+        <h1 className="text-3xl lg:text-5xl font-bold text-white my-8">
+          Rick and Morty Universe
+        </h1>
 
-      <CharacterList {...characters} />
+        <CharacterList {...characters} />
+      </div>
     </div>
   );
 };
