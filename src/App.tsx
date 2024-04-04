@@ -1,5 +1,11 @@
+import { CharactersContainer } from "./containers/CharactersContainer";
+
 function App() {
-  return <div className="bg-red-600">Hello world</div>;
+  return (
+    <div>
+      <CharactersContainer />
+    </div>
+  );
 }
 
 export default App;
