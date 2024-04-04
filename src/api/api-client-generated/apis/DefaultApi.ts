@@ -24,6 +24,7 @@ import {
 
 export interface GetCharactersRequest {
     page?: number;
+    name?: string;
 }
 
 /**
@@ -39,6 +40,10 @@ export class DefaultApi extends runtime.BaseAPI {
 
         if (requestParameters['page'] != null) {
             queryParameters['page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['name'] != null) {
+            queryParameters['name'] = requestParameters['name'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

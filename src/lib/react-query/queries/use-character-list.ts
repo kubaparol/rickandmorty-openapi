@@ -8,7 +8,7 @@ export const useCharacterListQuery = (params: GetCharactersRequest) => {
   const api = new DefaultApi();
 
   const query = useInfiniteQuery({
-    queryKey: [CHARACTER_LIST_QUERY_KEY],
+    queryKey: [CHARACTER_LIST_QUERY_KEY, params],
     queryFn: ({ pageParam }) =>
       api.getCharacters({ ...params, page: pageParam }),
     initialPageParam: 1,
