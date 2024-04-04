@@ -22,6 +22,10 @@ import {
     CharacterListResponseToJSON,
 } from '../models/index';
 
+export interface GetCharactersRequest {
+    page?: number;
+}
+
 /**
  * 
  */
@@ -30,8 +34,12 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Get a list of characters
      */
-    async getCharactersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CharacterListResponse>> {
+    async getCharactersRaw(requestParameters: GetCharactersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CharacterListResponse>> {
         const queryParameters: any = {};
+
+        if (requestParameters['page'] != null) {
+            queryParameters['page'] = requestParameters['page'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -48,8 +56,8 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Get a list of characters
      */
-    async getCharacters(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CharacterListResponse> {
-        const response = await this.getCharactersRaw(initOverrides);
+    async getCharacters(requestParameters: GetCharactersRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CharacterListResponse> {
+        const response = await this.getCharactersRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

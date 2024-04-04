@@ -1,4 +1,4 @@
-import { Character } from "../api/api-client-generated";
+import { Character } from "../api";
 
 export interface CharacterCardProps {
   character: Character;

@@ -1,8 +1,22 @@
+import { useCallback } from "react";
 import { CharacterList } from "../components/CharacterList";
 import { useCharacterListQuery } from "../lib";
 
 export const CharactersContainer = () => {
-  const { data, isLoading, isError } = useCharacterListQuery();
+  const {
+    data,
+    isLoading,
+    isError,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useCharacterListQuery({});
+
+  const onIntersectingHandler = useCallback(() => {
+    if (isFetchingNextPage) return;
+
+    if (hasNextPage) fetchNextPage();
+  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
 
   return (
     <div className="bg-black/85">
@@ -12,9 +26,10 @@ export const CharactersContainer = () => {
         </h1>
 
         <CharacterList
-          characters={data?.results}
+          characters={data}
           isLoading={isLoading}
           isError={isError}
+          onIntersecting={onIntersectingHandler}
         />
       </div>
     </div>
