@@ -1,7 +1,6 @@
-import { Character } from "../api";
-import { useIntersectionObserver } from "../hooks";
 import { CharacterCard } from "./CharacterCard";
-import { Skeleton } from "./Skeleton";
+import { Character } from "@/src/api";
+import { useIntersectionObserver } from "@/src/hooks";
 
 export interface CharacterListProps {
   characters?: Character[];
@@ -25,11 +24,9 @@ export const CharacterList = (props: CharacterListProps) => {
         ))}
 
         {isLoading &&
-          new Array(4).fill(0).map((_, index) => (
-            <li key={index} className="border h-72">
-              <Skeleton />
-            </li>
-          ))}
+          new Array(4)
+            .fill(0)
+            .map((_, index) => <li key={index} className="border h-72"></li>)}
       </ul>
 
       <div ref={ref} className="h-2 -translate-y-60" />

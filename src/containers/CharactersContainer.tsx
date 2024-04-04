@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { CharacterList } from "../components/CharacterList";
 import { useCharacterListQuery } from "../lib";
+import { CharacterList } from "../components/ui/CharacterList";
 
 export const CharactersContainer = () => {
   const {
