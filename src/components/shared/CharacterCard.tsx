@@ -1,14 +1,22 @@
 import { Character } from "@/src/api";
+import { cn } from "@/src/utils";
+import { ComponentPropsWithoutRef } from "react";
 
-export interface CharacterCardProps {
+export interface CharacterCardProps extends ComponentPropsWithoutRef<"div"> {
   character: Character;
 }
 
 export const CharacterCard = (props: CharacterCardProps) => {
-  const { character } = props;
+  const { character, className, ...rest } = props;
 
   return (
-    <div className="flex flex-col relative overflow-hidden w-full aspect-square rounded-2xl">
+    <div
+      {...rest}
+      className={cn(
+        "flex flex-col relative overflow-hidden w-full aspect-square rounded-2xl",
+        className
+      )}
+    >
       <img src={character.image} alt={character.name} />
       <div className="p-3 overflow-hidden backdrop-blur-md backdrop-saturate-150 absolute bg-black/40 bottom-2 left-2 right-2 z-10 rounded-2xl shadow-2xl">
         <h3 className="text-xl font-bold text-white">{character.name}</h3>

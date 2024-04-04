@@ -26,6 +26,12 @@ paths:
           schema:
             type: string
             description: The status of the character (Alive, Dead or unknown).
+        - in: query
+          name: gender
+          schema:
+            type: string
+            description: The gender of the character (Female, Male, Genderless or unknown).
+
       responses:
         "200":
           description: A list of characters

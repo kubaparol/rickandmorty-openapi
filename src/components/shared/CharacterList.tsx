@@ -1,22 +1,29 @@
 import { CharacterCard } from "./CharacterCard";
 import { Character } from "@/src/api";
 import { useIntersectionObserver } from "@/src/hooks";
+import { cn } from "@/src/utils";
+import { ComponentPropsWithoutRef } from "react";
 
-export interface CharacterListProps {
+export interface CharacterListProps extends ComponentPropsWithoutRef<"ul"> {
   characters?: Character[];
   isLoading: boolean;
-  isError: boolean;
   onIntersecting: () => void;
 }
 
 export const CharacterList = (props: CharacterListProps) => {
-  const { characters, isLoading, onIntersecting } = props;
+  const { characters, isLoading, onIntersecting, className, ...rest } = props;
 
   const ref = useIntersectionObserver<HTMLDivElement>(onIntersecting);
 
   return (
     <>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <ul
+        {...rest}
+        className={cn(
+          "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6",
+          className
+        )}
+      >
         {characters?.map((character) => (
           <li key={character.id}>
             <CharacterCard character={character} />

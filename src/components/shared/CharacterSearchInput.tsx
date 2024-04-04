@@ -1,18 +1,19 @@
-import { useEffect, useState } from "react";
+import { ComponentPropsWithoutRef, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Search } from "lucide-react";
-import { formUrlQuery, removeKeysFromQuery } from "@/src/utils";
+import { cn, formUrlQuery, removeKeysFromQuery } from "@/src/utils";
 import { Input } from "../ui/input";
 
-export interface CharacterNameSearchProps {
+export interface CharacterSearchInputProps
+  extends ComponentPropsWithoutRef<"div"> {
   placeholder?: string;
 }
 
 const SEARCH_QUERY_KEY = "name";
 const MAX_SEARCH_LENGTH = 80;
 
-export const CharacterNameSearch = (props: CharacterNameSearchProps) => {
-  const { placeholder = "Search name..." } = props;
+export const CharacterSearchInput = (props: CharacterSearchInputProps) => {
+  const { placeholder = "Search name...", className, ...rest } = props;
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const defaultValue = searchParams.get(SEARCH_QUERY_KEY) || "";
@@ -45,7 +46,13 @@ export const CharacterNameSearch = (props: CharacterNameSearchProps) => {
   }, [characterName, defaultValue, navigate, searchParams]);
 
   return (
-    <div className="flex items-center w-full overflow-hidden bg-gray-50 rounded-full px-4 py-1">
+    <div
+      {...rest}
+      className={cn(
+        "flex items-center w-full overflow-hidden bg-gray-50 rounded-full px-4 py-1",
+        className
+      )}
+    >
       <Search size={21} />
 
       <Input
