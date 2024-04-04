@@ -1,11 +1,10 @@
-import { FC } from "react";
 import { Character } from "../api/api-client-generated";
 
 export interface CharacterCardProps {
   character: Character;
 }
 
-export const CharacterCard: FC<CharacterCardProps> = (props) => {
+export const CharacterCard = (props: CharacterCardProps) => {
   const { character } = props;
 
   return (
