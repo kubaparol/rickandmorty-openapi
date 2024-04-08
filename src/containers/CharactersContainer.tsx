@@ -1,10 +1,12 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useCharacterListQuery } from "../lib";
 import { CharacterList } from "../components/shared/CharacterList";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { CharacterSearchInput } from "../components/shared/CharacterSearchInput";
 import { CharacterSearchSelect } from "../components/shared/CharacterSearchSelect";
-import { formUrlQuery } from "../utils";
+import { formUrlQuery, removeKeysFromQuery } from "../utils";
+import { Button } from "../components/ui/button";
+import { RotateCcw } from "lucide-react";
 
 const SEARCH_NAME_QUERY_KEY = "name";
 const SEARCH_STATUS_QUERY_KEY = "status";
@@ -13,9 +15,16 @@ const SEARCH_GENDER_QUERY_KEY = "gender";
 export const CharactersContainer = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const searchName = searchParams.get(SEARCH_NAME_QUERY_KEY) || "";
-  const searchStatus = searchParams.get(SEARCH_STATUS_QUERY_KEY) || "";
-  const searchGender = searchParams.get(SEARCH_GENDER_QUERY_KEY) || "";
+
+  const [searchName, setSearchName] = useState(
+    searchParams.get(SEARCH_NAME_QUERY_KEY) || ""
+  );
+  const [searchStatus, setSearchStatus] = useState(
+    searchParams.get(SEARCH_STATUS_QUERY_KEY) || ""
+  );
+  const [searchGender, setSearchGender] = useState(
+    searchParams.get(SEARCH_GENDER_QUERY_KEY) || ""
+  );
 
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useCharacterListQuery({
@@ -43,6 +52,23 @@ export const CharactersContainer = () => {
     },
     [navigate, searchParams]
   );
+
+  const clearFiltersHandler = useCallback(() => {
+    setSearchName("");
+    setSearchStatus("");
+    setSearchGender("");
+
+    const newUrl = removeKeysFromQuery({
+      params: searchParams.toString(),
+      keysToRemove: [
+        SEARCH_NAME_QUERY_KEY,
+        SEARCH_STATUS_QUERY_KEY,
+        SEARCH_GENDER_QUERY_KEY,
+      ],
+    });
+
+    navigate(newUrl);
+  }, [navigate, searchParams]);
 
   const statuses = useMemo(
     () => [
@@ -92,22 +118,38 @@ export const CharactersContainer = () => {
         </h1>
 
         <div className="grid gap-8">
-          <div className="grid md:grid-cols-4 items-center gap-2 lg:gap-6">
-            <CharacterSearchInput className="sm:col-span-2" />
+          <div className="grid gap-1">
+            <div className="grid md:grid-cols-4 items-center gap-2 lg:gap-6">
+              <CharacterSearchInput
+                value={searchName}
+                onValueChange={setSearchName}
+                className="sm:col-span-2"
+              />
 
-            <CharacterSearchSelect
-              placeholder="Status"
-              items={statuses}
-              defaultValue={searchStatus}
-              onChange={(value) => selectChangeHandler(value, "status")}
-            />
+              <CharacterSearchSelect
+                placeholder="Status"
+                items={statuses}
+                defaultValue={searchStatus}
+                onChange={(value) => selectChangeHandler(value, "status")}
+              />
 
-            <CharacterSearchSelect
-              placeholder="Gender"
-              items={genders}
-              defaultValue={searchGender}
-              onChange={(value) => selectChangeHandler(value, "gender")}
-            />
+              <CharacterSearchSelect
+                placeholder="Gender"
+                items={genders}
+                defaultValue={searchGender}
+                onChange={(value) => selectChangeHandler(value, "gender")}
+              />
+            </div>
+
+            <Button
+              variant="link"
+              size="sm"
+              onClick={clearFiltersHandler}
+              className="flex items-center gap-2 w-fit ml-auto"
+            >
+              Reset all filters
+              <RotateCcw size={18} />
+            </Button>
           </div>
 
           <CharacterList

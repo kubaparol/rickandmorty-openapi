@@ -3,6 +3,7 @@ import { Character } from "@/src/api";
 import { useIntersectionObserver } from "@/src/hooks";
 import { cn } from "@/src/utils";
 import { ComponentPropsWithoutRef } from "react";
+import { Skeleton } from "../ui/skeleton";
 
 export interface CharacterListProps extends ComponentPropsWithoutRef<"ul"> {
   characters?: Character[];
@@ -20,7 +21,7 @@ export const CharacterList = (props: CharacterListProps) => {
       <ul
         {...rest}
         className={cn(
-          "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6",
+          "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6",
           className
         )}
       >
@@ -31,12 +32,14 @@ export const CharacterList = (props: CharacterListProps) => {
         ))}
 
         {isLoading &&
-          new Array(4)
-            .fill(0)
-            .map((_, index) => <li key={index} className="border h-72"></li>)}
+          new Array(5).fill(0).map((_, index) => (
+            <li key={index} className="h-full aspect-square rounded-2xl">
+              <Skeleton className="h-full" />
+            </li>
+          ))}
       </ul>
 
-      <div ref={ref} className="h-2 -translate-y-60" />
+      <div ref={ref} className="h-2 -translate-y-96" />
     </>
   );
 };
