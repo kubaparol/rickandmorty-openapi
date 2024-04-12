@@ -15,16 +15,22 @@ const SEARCH_GENDER_QUERY_KEY = "gender";
 export const CharactersContainer = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const searchName = searchParams.get(SEARCH_NAME_QUERY_KEY) || "";
-  const searchStatus = searchParams.get(SEARCH_STATUS_QUERY_KEY) || "";
-  const searchGender = searchParams.get(SEARCH_GENDER_QUERY_KEY) || "";
+  const searchName = searchParams.get(SEARCH_NAME_QUERY_KEY) || null;
+  const searchStatus = searchParams.get(SEARCH_STATUS_QUERY_KEY) || null;
+  const searchGender = searchParams.get(SEARCH_GENDER_QUERY_KEY) || null;
 
-  const { data, isFetching, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useCharacterListQuery({
-      ...(searchName && { name: searchName }),
-      ...(searchStatus && { status: searchStatus }),
-      ...(searchGender && { gender: searchGender }),
-    });
+  const {
+    data,
+    isFetching,
+    isError,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useCharacterListQuery({
+    ...(searchName && { name: searchName }),
+    ...(searchStatus && { status: searchStatus }),
+    ...(searchGender && { gender: searchGender }),
+  });
 
   const onIntersectingHandler = useCallback(() => {
     if (isFetchingNextPage) return;
@@ -59,6 +65,8 @@ export const CharactersContainer = () => {
     navigate(newUrl);
   }, [navigate, searchParams]);
 
+  const showResetButton = searchName || searchStatus || searchGender;
+
   return (
     <div className="bg-black/25">
       <div className="wrapper min-h-screen">
@@ -77,32 +85,35 @@ export const CharactersContainer = () => {
               <CharacterSearchSelect
                 placeholder="Status"
                 items={statuses}
-                value={searchStatus}
+                value={searchStatus || ""}
                 onChange={(value) => selectChangeHandler(value, "status")}
               />
 
               <CharacterSearchSelect
                 placeholder="Gender"
                 items={genders}
-                value={searchGender}
+                value={searchGender || ""}
                 onChange={(value) => selectChangeHandler(value, "gender")}
               />
             </div>
 
-            <Button
-              variant="link"
-              size="sm"
-              onClick={clearFiltersHandler}
-              className="flex items-center gap-2 w-fit ml-auto"
-            >
-              Reset all filters
-              <RotateCcw size={18} />
-            </Button>
+            {showResetButton && (
+              <Button
+                variant="link"
+                size="sm"
+                onClick={clearFiltersHandler}
+                className="flex items-center gap-2 w-fit ml-auto"
+              >
+                Reset all filters
+                <RotateCcw size={18} />
+              </Button>
+            )}
           </div>
 
           <CharacterList
             characters={data}
             isLoading={isFetching}
+            isError={isError}
             onIntersecting={onIntersectingHandler}
           />
         </div>
