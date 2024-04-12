@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback } from "react";
 import { useCharacterListQuery } from "../lib";
 import { CharacterList } from "../components/shared/CharacterList";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -15,18 +15,11 @@ const SEARCH_GENDER_QUERY_KEY = "gender";
 export const CharactersContainer = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const searchName = searchParams.get(SEARCH_NAME_QUERY_KEY) || "";
+  const searchStatus = searchParams.get(SEARCH_STATUS_QUERY_KEY) || "";
+  const searchGender = searchParams.get(SEARCH_GENDER_QUERY_KEY) || "";
 
-  const [searchName, setSearchName] = useState(
-    searchParams.get(SEARCH_NAME_QUERY_KEY) || ""
-  );
-  const [searchStatus, setSearchStatus] = useState(
-    searchParams.get(SEARCH_STATUS_QUERY_KEY) || ""
-  );
-  const [searchGender, setSearchGender] = useState(
-    searchParams.get(SEARCH_GENDER_QUERY_KEY) || ""
-  );
-
-  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
+  const { data, isFetching, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useCharacterListQuery({
       ...(searchName && { name: searchName }),
       ...(searchStatus && { status: searchStatus }),
@@ -54,10 +47,6 @@ export const CharactersContainer = () => {
   );
 
   const clearFiltersHandler = useCallback(() => {
-    setSearchName("");
-    setSearchStatus("");
-    setSearchGender("");
-
     const newUrl = removeKeysFromQuery({
       params: searchParams.toString(),
       keysToRemove: [
@@ -70,46 +59,6 @@ export const CharactersContainer = () => {
     navigate(newUrl);
   }, [navigate, searchParams]);
 
-  const statuses = useMemo(
-    () => [
-      {
-        label: "Alive",
-        value: "alive",
-      },
-      {
-        label: "Dead",
-        value: "dead",
-      },
-      {
-        label: "Unknown",
-        value: "unknown",
-      },
-    ],
-    []
-  );
-
-  const genders = useMemo(
-    () => [
-      {
-        label: "Female",
-        value: "female",
-      },
-      {
-        label: "Male",
-        value: "male",
-      },
-      {
-        label: "Genderless",
-        value: "genderless",
-      },
-      {
-        label: "Unknown",
-        value: "unknown",
-      },
-    ],
-    []
-  );
-
   return (
     <div className="bg-black/25">
       <div className="wrapper min-h-screen">
@@ -121,22 +70,21 @@ export const CharactersContainer = () => {
           <div className="grid gap-1">
             <div className="grid md:grid-cols-4 items-center gap-2 lg:gap-6">
               <CharacterSearchInput
-                value={searchName}
-                onValueChange={setSearchName}
+                name={SEARCH_NAME_QUERY_KEY}
                 className="sm:col-span-2"
               />
 
               <CharacterSearchSelect
                 placeholder="Status"
                 items={statuses}
-                defaultValue={searchStatus}
+                value={searchStatus}
                 onChange={(value) => selectChangeHandler(value, "status")}
               />
 
               <CharacterSearchSelect
                 placeholder="Gender"
                 items={genders}
-                defaultValue={searchGender}
+                value={searchGender}
                 onChange={(value) => selectChangeHandler(value, "gender")}
               />
             </div>
@@ -154,7 +102,7 @@ export const CharactersContainer = () => {
 
           <CharacterList
             characters={data}
-            isLoading={isLoading}
+            isLoading={isFetching}
             onIntersecting={onIntersectingHandler}
           />
         </div>
@@ -162,3 +110,37 @@ export const CharactersContainer = () => {
     </div>
   );
 };
+
+const statuses = [
+  {
+    label: "Alive",
+    value: "alive",
+  },
+  {
+    label: "Dead",
+    value: "dead",
+  },
+  {
+    label: "Unknown",
+    value: "unknown",
+  },
+];
+
+const genders = [
+  {
+    label: "Female",
+    value: "female",
+  },
+  {
+    label: "Male",
+    value: "male",
+  },
+  {
+    label: "Genderless",
+    value: "genderless",
+  },
+  {
+    label: "Unknown",
+    value: "unknown",
+  },
+];

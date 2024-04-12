@@ -13,16 +13,16 @@ export interface CharacterSearchItemProps {
 
 export interface CharacterSearchSelectProps {
   placeholder: string;
-  defaultValue: string;
+  value: string;
   items: CharacterSearchItemProps[];
   onChange: (value: string) => void;
 }
 
 export const CharacterSearchSelect = (props: CharacterSearchSelectProps) => {
-  const { placeholder, defaultValue, items, onChange } = props;
+  const { placeholder, value, items, onChange } = props;
 
   return (
-    <Select onValueChange={onChange} defaultValue={defaultValue}>
+    <Select onValueChange={onChange} value={value}>
       <SelectTrigger className="flex items-center w-full h-[48px] overflow-hidden bg-gray-50 rounded-full px-4 py-1">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

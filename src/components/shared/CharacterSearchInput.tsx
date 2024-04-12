@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, useEffect } from "react";
+import { ComponentPropsWithoutRef, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Search } from "lucide-react";
 import { cn, formUrlQuery, removeKeysFromQuery } from "@/src/utils";
@@ -6,25 +6,17 @@ import { Input } from "../ui/input";
 
 export interface CharacterSearchInputProps
   extends ComponentPropsWithoutRef<"div"> {
-  value: string;
-  onValueChange: (value: string) => void;
+  name: string;
   placeholder?: string;
 }
 
-const SEARCH_QUERY_KEY = "name";
 const MAX_SEARCH_LENGTH = 80;
 
 export const CharacterSearchInput = (props: CharacterSearchInputProps) => {
-  const {
-    placeholder = "Search name...",
-    value,
-    onValueChange,
-    className,
-    ...rest
-  } = props;
+  const { placeholder = "Search...", name, className, ...rest } = props;
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const defaultValue = searchParams.get(SEARCH_QUERY_KEY) || "";
+  const [value, setValue] = useState(searchParams.get(name) || "");
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -33,13 +25,13 @@ export const CharacterSearchInput = (props: CharacterSearchInputProps) => {
       if (value) {
         newUrl = formUrlQuery({
           params: searchParams.toString(),
-          key: SEARCH_QUERY_KEY,
+          key: name,
           value: value,
         });
       } else {
         newUrl = removeKeysFromQuery({
           params: searchParams.toString(),
-          keysToRemove: [SEARCH_QUERY_KEY],
+          keysToRemove: [name],
         });
       }
 
@@ -47,7 +39,7 @@ export const CharacterSearchInput = (props: CharacterSearchInputProps) => {
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [value, defaultValue, navigate, searchParams]);
+  }, [value, navigate, searchParams, name]);
 
   return (
     <div
@@ -62,8 +54,8 @@ export const CharacterSearchInput = (props: CharacterSearchInputProps) => {
       <Input
         type="text"
         placeholder={placeholder}
-        onChange={(e) => onValueChange(e.target.value)}
-        defaultValue={defaultValue}
+        onChange={(e) => setValue(e.target.value)}
+        value={value}
         className="text-base border-0 bg-gray-50 outline-offset-0 placeholder:text-grey-500 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
         maxLength={MAX_SEARCH_LENGTH}
       />
