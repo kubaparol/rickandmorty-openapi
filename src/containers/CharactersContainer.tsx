@@ -70,9 +70,12 @@ export const CharactersContainer = () => {
   return (
     <div className="bg-black/25">
       <div className="wrapper min-h-screen">
-        <h1 className="text-3xl lg:text-5xl font-bold text-white my-8">
-          Rick and Morty Universe
-        </h1>
+        <header className="flex flex-col gap-1 my-8">
+          <h1 className="text-3xl lg:text-5xl font-bold text-white">
+            Rick and Morty Universe
+          </h1>
+          <p className="text-xs">v{APP_VERSION}</p>
+        </header>
 
         <div className="grid gap-8">
           <div className="grid gap-1">
