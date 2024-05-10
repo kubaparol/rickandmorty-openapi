@@ -7,6 +7,7 @@ import { CharacterSearchSelect } from "../components/shared/CharacterSearchSelec
 import { formUrlQuery, removeKeysFromQuery } from "../utils";
 import { Button } from "../components/ui/button";
 import { RotateCcw } from "lucide-react";
+import { EnvironmentInfo } from "../components/shared/EnvironmentInfo";
 
 const SEARCH_NAME_QUERY_KEY = "name";
 const SEARCH_STATUS_QUERY_KEY = "status";
@@ -74,7 +75,7 @@ export const CharactersContainer = () => {
           <h1 className="text-3xl lg:text-5xl font-bold text-white">
             Rick and Morty Universe
           </h1>
-          <p className="text-xs">v{APP_VERSION}</p>
+          <EnvironmentInfo version={__APP_VERSION__} />
         </header>
 
         <div className="grid gap-8">
