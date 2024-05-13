@@ -17,10 +17,10 @@ jobs:
         uses: ./.github/actions/setup-project
 
       - name: Lint code
-        run: yarn lint
+        run: npm run lint
 
       - name: Build app
-        run: yarn build
+        run: npm run build
 
       - name: Deploy app to Vercel production env
         uses: ./.github/actions/deploy-vercel
