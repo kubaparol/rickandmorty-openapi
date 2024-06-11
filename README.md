@@ -1,30 +1,61 @@
-# React + TypeScript + Vite
+# Rick and Morty Characters
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## :mag: Overview
 
-Currently, two official plugins are available:
+:fire: Click to see live version: [Rick and Morty Characters](https://rickandmorty-openapi.vercel.app/)!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The "Rick and Morty Characters" app is a simple yet functional web application designed to display a searchable and filterable list of characters from the popular TV show "Rick and Morty", utilizing infinite scrolling for a seamless user experience.
 
-## Expanding the ESLint configuration
+&nbsp;
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## :bulb: Technologies
 
-- Configure the top-level `parserOptions` property like this:
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Shadcn](https://shadcn.com/)
+- [ESLint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
+- [Vite](https://vitejs.dev/)
+- [OpenAPI](https://www.openapis.org/)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+&nbsp;
+
+## :cd: Installation
+
+### You can run the project locally
+
+- First you need to clone the project
+
+```
+git clone
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Then install all necessary packages
+
+```
+npm i
+```
+
+- Start developers mode
+
+```
+npm start
+```
+
+- App is ready to go:
+
+  - site
+
+  ```
+  http://localhost:3000/
+  ```
+
+&nbsp;
+
+## :wave: Feel free to contact me
+
+You can find me here:
+
+- [LinkedIn](https://www.linkedin.com/in/jakub-parol/)
+- [GitHub](https://github.com/kubaparol)
